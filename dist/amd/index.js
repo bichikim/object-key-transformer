@@ -1,13 +1,43 @@
 define("index", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = (function (time, callback, payload) {
-        if (payload === void 0) { payload = []; }
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(callback && callback.apply(void 0, payload));
-            }, time);
+    var isObject = function (value) {
+        return !Array.isArray(value) && value !== null && typeof value === 'object';
+    };
+    var arrayTransformer = function (value, func, deep) {
+        if (deep === void 0) { deep = false; }
+        return value.map(function (item) {
+            if (isObject(item)) {
+                return index(item, func, deep);
+            }
+            if (Array.isArray(item)) {
+                return arrayTransformer(item, func, deep);
+            }
+            return item;
         });
-    });
+    };
+    var index = function (value, func, deep) {
+        if (deep === void 0) { deep = false; }
+        if (!isObject(value)) {
+            return value;
+        }
+        return Object.keys(value).reduce(function (result, key) {
+            var item = value[key];
+            if (!deep) {
+                result[func(key)] = item;
+            }
+            else if (isObject(item)) {
+                result[func(key)] = index(item, func, deep);
+            }
+            else if (Array.isArray(item)) {
+                result[func(key)] = arrayTransformer(item, func, deep);
+            }
+            else {
+                result[func(key)] = item;
+            }
+            return result;
+        }, {});
+    };
+    exports.default = index;
 });
 //# sourceMappingURL=index.js.map
