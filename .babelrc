@@ -1,0 +1,8 @@
+{
+  "presets": ["@nuxtjs/babel-preset-app"],
+  "env": {
+    "test": {
+      "presets": ["@nuxtjs/babel-preset-app"]
+    }
+  }
+}
