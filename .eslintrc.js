@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['html', '@typescript-eslint', 'import', 'vue'],
+  plugins: ['@typescript-eslint', 'import', 'vue', 'sort-class-members'],
   env: {
     'commonjs': true,
     'browser': true,
@@ -10,10 +10,11 @@ module.exports = {
   },
   settings: {
     'import/parsers': {
-      '@typescript-eslint/parser': [ '.ts', '.tsx', 'vue'],
+      '@typescript-eslint/parser': ['.ts', '.tsx', 'vue'],
     },
   },
   extends: [
+    'plugin:@typescript-eslint/recommended',
     'eslint:recommended',
     'plugin:vue/recommended',
     'plugin:import/warnings',
@@ -52,6 +53,7 @@ module.exports = {
     {
       files: ['*.d.ts'],
       rules: {
+        'no-var': 'off',
         'import/no-duplicates': 'off',
         'typescript/interface-name-prefix': 'off',
         'typescript/no-namespace': 'off',
@@ -114,28 +116,29 @@ module.exports = {
     'getter-return': 'error',
     'global-require': 'error',
     'guard-for-in': 'error',
-    'indent': ['error', 2, { 'SwitchCase': 1 }],
-    'keyword-spacing': ['error', {
-      'before': true,
-      'after': true,
-      'overrides': {
-        'catch': {
-          'after': false,
+    'indent': ['error', 2, {'SwitchCase': 1}],
+    'keyword-spacing': [
+      'error', {
+        'before': true,
+        'after': true,
+        'overrides': {
+          'catch': {
+            'after': false,
+          },
+          'if': {
+            'after': false,
+          },
+          'for': {
+            'after': false,
+          },
+          'while': {
+            'after': false,
+          },
+          'switch': {
+            'after': false,
+          },
         },
-        'if': {
-          'after': false,
-        },
-        'for': {
-          'after': false,
-        },
-        'while': {
-          'after': false,
-        },
-        'switch': {
-          'after': false,
-        }
-      }
-    }],
+      }],
     'max-depth': ['error', {'max': 4}],
     'max-len': ['error', 100],
     'max-lines': ['error', 1000],
@@ -207,35 +210,42 @@ module.exports = {
     'require-await': 'error',
     'semi': ['error', 'never'],
     'sort-keys': 'off',
-    'space-before-blocks': ['error', {
-      'functions': 'always', 'keywords': 'always', 'classes': 'always'}],
-    'space-before-function-paren': ['error', {
-      'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always'}],
+    'space-before-blocks': [
+      'error', {
+        'functions': 'always', 'keywords': 'always', 'classes': 'always',
+      }],
+    'space-before-function-paren': [
+      'error', {
+        'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always',
+      }],
     'vars-on-top': 'error',
 
     /*************************************
      * type script options
      *************************************/
     // off
-    '@typescript-eslint/explicit-member-accessibility': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
+    // '@typescript-eslint/explicit-member-accessibility': 'off',
+    // '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
-    '@typescript-eslint/member-ordering': 'off',
+    // '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
+    // '@typescript-eslint/no-explicit-any': 'off',
+    // '@typescript-eslint/no-type-alias': 'off',
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-type-alias': 'off',
-    '@typescript-eslint/no-use-before-define ': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     // on
     '@typescript-eslint/adjacent-overload-signatures': 'error',
     '@typescript-eslint/class-name-casing': 'error',
     '@typescript-eslint/member-naming': ['error', {'private': '^_'}],
-    '@typescript-eslint/no-angle-bracket-type-assertion': 'error',
     '@typescript-eslint/no-array-constructor': 'error',
     '@typescript-eslint/no-namespace': 'error',
     '@typescript-eslint/no-parameter-properties': 'error',
-    '@typescript-eslint/no-triple-slash-reference': 'error',
-    // it has an error
-    '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/type-annotation-spacing': [
       'error', {
         'before': false,
@@ -251,5 +261,26 @@ module.exports = {
           },
         },
       }],
+    /***********************************
+     * sort class memberss
+     ***********************************/
+    'sort-class-members/sort-class-members': ['error', {
+      order: [
+        '[static-properties]',
+        '[static-methods]',
+        '[properties]',
+        '[private-properties]',
+        'constructor',
+        '[methods]',
+        '[private-methods]',
+      ],
+      accessorPairPositioning: 'getThenSet',
+    }],
+    /***********************************
+     * Vue
+     ***********************************/
+    'vue/mustache-interpolation-spacing': ['error', 'never'],
+    'vue/component-name-in-template-casing': ['error', 'kebab-case'],
+    'vue/match-component-file-name': ['error']
   },
 }
