@@ -1,6 +1,10 @@
 # Object key transformer
 > Changing object keys 
 
+![LICENSE IMAGE](https://img.shields.io/npm/l/object-key-transformer.svg)
+![npm](https://img.shields.io/npm/v/object-key-transformer.svg)
+![Codecov](https://img.shields.io/codecov/c/github/bichikim/object-key-transformer.svg)
+![Travis](https://img.shields.io/travis/bichikim/object-key-transformer.svg)
 ## How to use
 
 ```typescript
