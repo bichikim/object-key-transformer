@@ -1,5 +1,5 @@
 const isObject = (value: any) => {
-  return !Array.isArray(value) && value !== null && typeof value === 'object'
+  return value !== null && typeof value === 'object'
 }
 
 const arrayTransformer = (
@@ -30,10 +30,10 @@ const index = (
     const item = value[key]
     if(!deep) {
       result[func(key)] = item
-    } else if(isObject(item)) {
-      result[func(key)] = index(item, func, deep)
     } else if(Array.isArray(item)) {
       result[func(key)] = arrayTransformer(item, func, deep)
+    } else if(isObject(item)) {
+      result[func(key)] = index(item, func, deep)
     } else {
       result[func(key)] = item
     }
