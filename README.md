@@ -23,3 +23,21 @@ const result = objectTransformer({
 }, capitalize)
 console.log(result) // -> {Foo: 'foo', Bar: 'bar', John: {Foo: 'foo', Bar: 'bar'}}
 ```
+
+## js Files
+
+### CDN
+```html
+<script type="text/javascript" src="https://unpkg.com/object-key-transformer@${npm version}/dist
+/index.umd.js
+"></script>
+<script>
+  var result = ObjectKeyTransformer({/* ... */})
+</script>
+```
+
+### module
+```typescript
+import objectKeyTransformer from 'object-key-fransformer'
+const result = objectKeyTransformer({/* ... */})
+```
