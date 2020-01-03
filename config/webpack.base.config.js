@@ -1,27 +1,20 @@
 /* tslint:disable:no-require-imports */
-const path = require('path')
 const formatter = require('eslint-friendly-formatter')
+const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const TsconfigPathsWebpackPlugin = require('tsconfig-paths-webpack-plugin')
+
 const resolve = (dir) => {
   return path.join(__dirname, '..', dir)
 }
-const tsTranspileOnly = process.env.TS_TRANSPILE_ONLY === 'true'
-const packageJson = require('../package.json')
-module.exports = ({mode = 'bundle'} = {}) => {
+const _tsTranspileOnly = process.env.TS_TRANSPILE_ONLY === 'true'
+
+module.exports = ({mode = 'bundle', tsTranspileOnly = _tsTranspileOnly} = {}) => {
   const tsConfigFile = process.env.TS_CONFIG_FILE || `tsconfig.${mode}.json`
   return {
     entry: {
-      app: ['./src/index.ts'],
+      index: ['./src/index.ts'],
     },
-    output: {
-      path: resolve('dist/bundle'),
-      filename: '[name].js',
-      pathinfo: true,
-      library: packageJson.name,
-      libraryTarget: 'umd',
-      globalObject: 'this',
-    },
+
     resolve: {
       extensions: [
         '.js', '.jsx', '.mjs', '.json',
@@ -34,11 +27,6 @@ module.exports = ({mode = 'bundle'} = {}) => {
         '~~': resolve(''),
         'vue$': 'vue/dist/vue.esm.js',
       },
-      plugins: [
-        new TsconfigPathsWebpackPlugin({
-          configFile: tsConfigFile,
-        }),
-      ],
     },
     plugins: [new VueLoaderPlugin()],
     module: {
@@ -55,24 +43,9 @@ module.exports = ({mode = 'bundle'} = {}) => {
           exclude: /node_modules/,
         },
         {
-          test: /\.jsx?$/,
+          test: /\.(j|t)sx?$/,
           exclude: /node_modules/,
           use: 'babel-loader',
-        },
-        {
-          test: /\.tsx?$/,
-          exclude: [/node_modules/],
-          use: [
-            'babel-loader',
-            {
-              loader: 'ts-loader',
-              options: {
-                appendTsSuffixTo: [/\.vue$/],
-                transpileOnly: tsTranspileOnly,
-                configFile: tsConfigFile,
-              },
-            },
-          ],
         },
         {
           test: /\.css$/,

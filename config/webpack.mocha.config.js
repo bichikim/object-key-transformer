@@ -1,15 +1,12 @@
 const webpackBaseConfig = require('./webpack.base.config')
 const webpackMerge = require('webpack-merge')
 const Webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = webpackMerge(webpackBaseConfig({mode: 'test'}), {
-  plugins: [
-    new Webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('test'),
-    }),
-  ],
   entry: null,
   output: null,
+  devtool: 'eval',
   /**
    * Test in this project needs development
    * For more info See this
@@ -17,8 +14,17 @@ module.exports = webpackMerge(webpackBaseConfig({mode: 'test'}), {
    */
   mode: 'development',
   // for webpack karma debug
-  devtool: 'inline-source-map',
-  optimization: {
-    minimize: false,
+  plugins: [
+    new Webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('test'),
+    }),
+  ],
+  node: {
+    dns: 'mock',
+    fs: 'empty',
+    path: true,
+    url: false,
   },
+  target: 'node',
+  externals: [nodeExternals()],
 })
