@@ -2,7 +2,7 @@ define("index", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var isObject = function (value) {
-        return !Array.isArray(value) && value !== null && typeof value === 'object';
+        return value !== null && typeof value === 'object';
     };
     var arrayTransformer = function (value, func, deep) {
         if (deep === void 0) { deep = false; }
@@ -26,11 +26,11 @@ define("index", ["require", "exports"], function (require, exports) {
             if (!deep) {
                 result[func(key)] = item;
             }
-            else if (isObject(item)) {
-                result[func(key)] = index(item, func, deep);
-            }
             else if (Array.isArray(item)) {
                 result[func(key)] = arrayTransformer(item, func, deep);
+            }
+            else if (isObject(item)) {
+                result[func(key)] = index(item, func, deep);
             }
             else {
                 result[func(key)] = item;

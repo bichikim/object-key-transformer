@@ -1,5 +1,5 @@
 var isObject = function (value) {
-    return !Array.isArray(value) && value !== null && typeof value === 'object';
+    return value !== null && typeof value === 'object';
 };
 var arrayTransformer = function (value, func, deep) {
     if (deep === void 0) { deep = false; }
@@ -23,11 +23,11 @@ var index = function (value, func, deep) {
         if (!deep) {
             result[func(key)] = item;
         }
-        else if (isObject(item)) {
-            result[func(key)] = index(item, func, deep);
-        }
         else if (Array.isArray(item)) {
             result[func(key)] = arrayTransformer(item, func, deep);
+        }
+        else if (isObject(item)) {
+            result[func(key)] = index(item, func, deep);
         }
         else {
             result[func(key)] = item;
