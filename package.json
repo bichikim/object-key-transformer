@@ -1,10 +1,10 @@
 {
   "name": "object-key-transformer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "object key transformer",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
-  "types": "declarations/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "parallel-webpack --config config/webpack.config.js && tsc -p tsconfig.bundle.json",
     "doc": "typedoc -out ./docs ./src --media ./media",
