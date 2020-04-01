@@ -20,7 +20,7 @@ const result = objectTransformer({
       bar: 'bar'
     } 
   ]
-}, capitalize)
+}, capitalize, true) // last argument is for deeply transforming objects
 console.log(result) // -> {Foo: 'foo', Bar: 'bar', John: {Foo: 'foo', Bar: 'bar'}}
 ```
 
@@ -38,6 +38,6 @@ console.log(result) // -> {Foo: 'foo', Bar: 'bar', John: {Foo: 'foo', Bar: 'bar'
 
 ### module
 ```typescript
-import objectKeyTransformer from 'object-key-fransformer'
+import objectKeyTransformer from 'object-key-transformer'
 const result = objectKeyTransformer({/* ... */})
 ```
