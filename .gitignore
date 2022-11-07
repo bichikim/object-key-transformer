@@ -20,8 +20,6 @@ debug.log*
 
 
 ## environment files
-#yarn.lock
-package-lock.json
 .env
 .npmrc
 

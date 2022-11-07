@@ -1,38 +1,53 @@
-import objectTransformer from '@/index'
+import objectTransformer from '../'
 import {capitalize} from 'lodash'
 
-describe('lib/object-transformer', function test() {
-  it('should transform keys', function test() {
-    const result = objectTransformer({
-      foo: 'foo',
-      bar: 'bar',
-    }, capitalize)
+describe('objectKeyTransformer', () => {
+  it('should transform keys', () => {
+    const result = objectTransformer(
+      {
+        bar: 'bar',
+        foo: 'foo',
+      },
+      capitalize,
+    )
     expect(result).to.deep.equal({
-      Foo: 'foo',
       Bar: 'bar',
+      Foo: 'foo',
     })
+    expect('hello').to.equal('hello')
   })
   it('should transform keys deeply', function test() {
-    const result = objectTransformer({
-      foo: 'foo',
-      bar: ['bar', {
+    const result = objectTransformer(
+      {
+        bar: [
+          'bar',
+          {
+            bar: 'bar',
+            foo: 'foo',
+          },
+        ],
         foo: 'foo',
-        bar: 'bar',
-      }],
-      john: {
-        foo: null,
-        bar: 5,
+        john: {
+          bar: 5,
+          foo: null,
+        },
       },
-    }, (key) => (capitalize(key)), true)
+      (key) => capitalize(key),
+      true,
+    )
+
     expect(result).to.deep.equal({
+      Bar: [
+        'bar',
+        {
+          Bar: 'bar',
+          Foo: 'foo',
+        },
+      ],
       Foo: 'foo',
-      Bar: ['bar', {
-        Foo: 'foo',
-        Bar: 'bar',
-      }],
       John: {
-        Foo: null,
         Bar: 5,
+        Foo: null,
       },
     })
   })
