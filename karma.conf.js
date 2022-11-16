@@ -15,33 +15,42 @@ module.exports = (config) => {
     browsers: [
       //
       'ChromeHeadless',
-      // "FirefoxHeadless",
+      // make sure install firefox
+      'FirefoxHeadless',
       'WebkitHeadless',
     ],
-    files: [{pattern: 'src/**/*.ts'}],
+    files: [{pattern: 'src/**/*.spec.ts', served: false, type: 'module', watched: false}],
+    frameworks: ['mocha', 'chai', 'vite'],
 
-    frameworks: ['mocha', 'chai', 'karma-typescript'],
+    // Make Karma work with pnpm.
+    // See: https://github.com/pnpm/pnpm/issues/720#issuecomment-954120387
+    plugins: Object.keys(require('./package').devDependencies).flatMap((packageName) => {
+      if (!packageName.startsWith('karma-')) {
+        return []
+      }
+      return [require(packageName)]
+    }),
     // @see https://npm.io/package/karma-typescript
-    karmaTypescriptConfig: {
-      bundlerOptions: {
-        sourceMap: true,
-        transforms: [require('karma-typescript-es6-transform')()],
-      },
-      compilerOptions: {
-        allowJs: true,
-        lib: ['esnext', 'dom', 'es2019'],
-        skipLibCheck: true,
-        sourceMap: true,
-      },
-      coverageOptions: {
-        instrumentation: false,
-        sourceMap: true,
-      },
-    },
-    preprocessors: {
-      'src/**/*.ts': ['karma-typescript', 'coverage'],
-    },
+    // karmaTypescriptConfig: {
+    //   bundlerOptions: {
+    //     sourceMap: true,
+    //     transforms: [require('karma-typescript-es6-transform')()],
+    //   },
+    //   compilerOptions: {
+    //     allowJs: true,
+    //     lib: ['esnext', 'dom', 'es2019'],
+    //     skipLibCheck: true,
+    //     sourceMap: true,
+    //   },
+    //   coverageOptions: {
+    //     instrumentation: false,
+    //     sourceMap: true,
+    //   },
+    // },
+    // preprocessors: {
+    //   'src/**/*.ts': ['vite', 'coverage'],
+    // },
 
-    reporters: ['coverage', 'karma-typescript'],
+    reporters: ['spec'],
   })
 }
